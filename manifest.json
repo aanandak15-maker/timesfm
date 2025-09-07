@@ -1,0 +1,180 @@
+{
+  "name": "AgriForecast.ai - Agricultural Intelligence Platform",
+  "short_name": "AgriForecast.ai",
+  "description": "AI-powered agricultural forecasting and farm management platform with real-time weather data, yield predictions, and market intelligence.",
+  "version": "1.0.0",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAFAFA",
+  "theme_color": "#2E7D32",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["agriculture", "productivity", "weather", "business"],
+  "icons": [
+    {
+      "src": "icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "My Fields",
+      "short_name": "Fields",
+      "description": "View and manage your agricultural fields",
+      "url": "/?page=fields",
+      "icons": [
+        {
+          "src": "icons/shortcut-fields.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "AI Forecast",
+      "short_name": "Forecast",
+      "description": "Generate AI-powered yield and weather forecasts",
+      "url": "/?page=forecasting",
+      "icons": [
+        {
+          "src": "icons/shortcut-forecast.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Weather",
+      "short_name": "Weather",
+      "description": "Check real-time weather conditions",
+      "url": "/?page=weather",
+      "icons": [
+        {
+          "src": "icons/shortcut-weather.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Add Field",
+      "short_name": "Add Field",
+      "description": "Quickly add a new field to your farm",
+      "url": "/?action=add_field",
+      "icons": [
+        {
+          "src": "icons/shortcut-add.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshots/desktop-dashboard.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Dashboard view showing farm overview and AI insights"
+    },
+    {
+      "src": "screenshots/mobile-fields.png",
+      "sizes": "360x640",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile field management interface"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "scope_extensions": [
+    {
+      "origin": "https://api.openweathermap.org"
+    },
+    {
+      "origin": "https://api.nasa.gov"
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+agriforecast",
+      "url": "/?action=%s"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "/import",
+      "accept": {
+        "text/csv": [".csv"],
+        "application/json": [".json"],
+        "application/vnd.ms-excel": [".xls", ".xlsx"]
+      }
+    }
+  ],
+  "share_target": {
+    "action": "/share",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "field_data",
+          "accept": ["text/csv", "application/json"]
+        }
+      ]
+    }
+  }
+}

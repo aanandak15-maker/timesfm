@@ -1,0 +1,581 @@
+/**
+ * Mobile-First CSS Optimizations for AgriForecast.ai
+ * Touch-optimized components and responsive enhancements
+ */
+
+/* ===========================================
+   MOBILE-FIRST VARIABLES
+   =========================================== */
+:root {
+  /* Touch target sizes (Apple Human Interface Guidelines) */
+  --touch-target-min: 44px;
+  --touch-target-comfortable: 48px;
+  --touch-target-large: 56px;
+  
+  /* Mobile-specific spacing */
+  --mobile-padding: 16px;
+  --mobile-margin: 12px;
+  --mobile-gap: 8px;
+  
+  /* Font sizes optimized for mobile readability */
+  --mobile-text-xs: 14px;
+  --mobile-text-sm: 16px;
+  --mobile-text-base: 18px;
+  --mobile-text-lg: 20px;
+  --mobile-text-xl: 24px;
+  
+  /* Mobile-specific colors */
+  --mobile-focus: #2E7D32;
+  --mobile-active: rgba(46, 125, 50, 0.1);
+  --mobile-disabled: #BDBDBD;
+  
+  /* Animation timing for touch feedback */
+  --touch-feedback: 0.1s;
+  --touch-release: 0.2s;
+}
+
+/* ===========================================
+   GLOBAL MOBILE OPTIMIZATIONS
+   =========================================== */
+
+/* Prevent text size adjustment on orientation change */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Optimize touch scrolling */
+body {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Remove default button styling on mobile */
+button, input, select, textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0;
+}
+
+/* Prevent zoom on input focus (iOS) */
+input, select, textarea {
+  font-size: 16px !important;
+}
+
+/* ===========================================
+   TOUCH-OPTIMIZED COMPONENTS
+   =========================================== */
+
+/* Enhanced buttons with proper touch targets */
+.mobile-btn {
+  min-height: var(--touch-target-min);
+  min-width: var(--touch-target-min);
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  font-size: var(--mobile-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--touch-feedback) ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  
+  /* Disable text selection */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  /* Disable callout on iOS */
+  -webkit-touch-callout: none;
+  
+  /* Disable tap highlight */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Touch feedback states */
+.mobile-btn:active {
+  transform: scale(0.98);
+  transition: transform var(--touch-feedback) ease;
+}
+
+.mobile-btn:focus {
+  outline: 2px solid var(--mobile-focus);
+  outline-offset: 2px;
+}
+
+/* Primary button variants */
+.mobile-btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.mobile-btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+.mobile-btn-primary:active {
+  background: #1B5E20;
+}
+
+/* Secondary button variants */
+.mobile-btn-secondary {
+  background: white;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.mobile-btn-secondary:hover {
+  background: var(--mobile-active);
+}
+
+/* Ghost button for less prominent actions */
+.mobile-btn-ghost {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.mobile-btn-ghost:hover {
+  background: var(--mobile-active);
+  border-color: var(--primary);
+}
+
+/* ===========================================
+   MOBILE FORM OPTIMIZATIONS
+   =========================================== */
+
+/* Touch-friendly form containers */
+.mobile-form {
+  padding: var(--mobile-padding);
+  max-width: 100%;
+}
+
+.mobile-form-group {
+  margin-bottom: 20px;
+}
+
+.mobile-label {
+  display: block;
+  font-size: var(--mobile-text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+/* Enhanced input fields */
+.mobile-input {
+  width: 100%;
+  min-height: var(--touch-target-min);
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 16px; /* Prevents zoom on iOS */
+  font-family: inherit;
+  background: white;
+  transition: border-color var(--touch-release) ease;
+  box-sizing: border-box;
+  
+  /* Remove iOS styling */
+  -webkit-appearance: none;
+  -webkit-border-radius: 12px;
+}
+
+.mobile-input:focus {
+  outline: none;
+  border-color: var(--mobile-focus);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+.mobile-input::placeholder {
+  color: var(--mobile-disabled);
+  opacity: 1;
+}
+
+/* Enhanced select dropdowns */
+.mobile-select {
+  width: 100%;
+  min-height: var(--touch-target-min);
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 16px;
+  background: white;
+  cursor: pointer;
+  
+  /* Custom arrow */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 12px center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-right: 48px;
+}
+
+.mobile-select:focus {
+  outline: none;
+  border-color: var(--mobile-focus);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+/* ===========================================
+   MOBILE CARD OPTIMIZATIONS
+   =========================================== */
+
+.mobile-card {
+  background: white;
+  border-radius: 16px;
+  padding: var(--mobile-padding);
+  margin-bottom: var(--mobile-margin);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+  
+  /* Optimize for touch scrolling */
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.mobile-card-title {
+  font-size: var(--mobile-text-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.mobile-card-action {
+  min-height: var(--touch-target-min);
+  min-width: var(--touch-target-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mobile-active);
+  border: none;
+  border-radius: 8px;
+  color: var(--primary);
+  cursor: pointer;
+}
+
+/* ===========================================
+   MOBILE NAVIGATION ENHANCEMENTS
+   =========================================== */
+
+/* Bottom navigation for mobile */
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  z-index: 1000;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
+  
+  /* Safe area insets for iPhone X+ */
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.mobile-bottom-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 4px;
+  min-height: var(--touch-target-comfortable);
+  text-decoration: none;
+  color: var(--text-secondary);
+  transition: color var(--touch-release) ease;
+}
+
+.mobile-bottom-nav-item.active {
+  color: var(--primary);
+}
+
+.mobile-bottom-nav-icon {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.mobile-bottom-nav-label {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ===========================================
+   GESTURE OPTIMIZATIONS
+   =========================================== */
+
+/* Pull-to-refresh area */
+.mobile-pull-refresh {
+  position: relative;
+  overflow: hidden;
+}
+
+.mobile-pull-refresh::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e0e0e0;
+  border-top: 3px solid var(--primary);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-pull-refresh.pulling::before {
+  opacity: 1;
+  animation: spin 1s linear infinite;
+}
+
+/* Swipe gesture indicators */
+.mobile-swipe-indicator {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 40px;
+  background: var(--primary);
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-swipe-indicator.left {
+  left: 8px;
+}
+
+.mobile-swipe-indicator.right {
+  right: 8px;
+}
+
+/* ===========================================
+   LOADING STATES
+   =========================================== */
+
+.mobile-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.mobile-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e0e0e0;
+  border-top: 3px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+.mobile-loading-text {
+  font-size: var(--mobile-text-sm);
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* ===========================================
+   ACCESSIBILITY IMPROVEMENTS
+   =========================================== */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .mobile-btn {
+    border: 2px solid currentColor;
+  }
+  
+  .mobile-card {
+    border: 2px solid #666;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #121212;
+    --surface: #1e1e1e;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --border: #333333;
+  }
+  
+  .mobile-card {
+    background: var(--surface);
+    border-color: var(--border);
+  }
+  
+  .mobile-input,
+  .mobile-select {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--text-primary);
+  }
+}
+
+/* ===========================================
+   DEVICE-SPECIFIC OPTIMIZATIONS
+   =========================================== */
+
+/* iPhone X+ safe areas */
+@supports (padding: max(0px)) {
+  .mobile-header {
+    padding-top: max(12px, env(safe-area-inset-top));
+  }
+  
+  .mobile-content {
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
+  }
+  
+  .mobile-bottom-nav {
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Android-specific optimizations */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  /* Optimize for portrait mode */
+  .mobile-form {
+    padding: 20px 16px;
+  }
+  
+  .mobile-card {
+    margin-bottom: 16px;
+  }
+}
+
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  /* Optimize for landscape mode */
+  .mobile-header {
+    padding: 8px 16px;
+  }
+  
+  .mobile-card {
+    padding: 12px;
+  }
+  
+  .mobile-bottom-nav {
+    display: none; /* Hide bottom nav in landscape */
+  }
+}
+
+/* ===========================================
+   UTILITY CLASSES
+   =========================================== */
+
+/* Touch feedback utilities */
+.touch-feedback {
+  transition: transform var(--touch-feedback) ease;
+}
+
+.touch-feedback:active {
+  transform: scale(0.98);
+}
+
+/* Scroll utilities */
+.mobile-scroll-horizontal {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.mobile-scroll-horizontal::-webkit-scrollbar {
+  display: none;
+}
+
+/* Spacing utilities */
+.mobile-p-4 { padding: 16px; }
+.mobile-p-6 { padding: 24px; }
+.mobile-m-4 { margin: 16px; }
+.mobile-m-6 { margin: 24px; }
+
+/* Text utilities */
+.mobile-text-center { text-align: center; }
+.mobile-text-left { text-align: left; }
+.mobile-text-right { text-align: right; }
+
+/* Display utilities */
+.mobile-hidden { display: none; }
+.mobile-flex { display: flex; }
+.mobile-block { display: block; }
+
+/* ===========================================
+   ANIMATIONS
+   =========================================== */
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Animation utility classes */
+.mobile-fade-in-up {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.mobile-slide-in-left {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+.mobile-slide-in-right {
+  animation: slideInRight 0.3s ease-out;
+}
