@@ -34,7 +34,7 @@ import WeatherWidget from '../../components/agricultural/WeatherWidget'
 import YieldPredictionCard from '../../components/agricultural/YieldPredictionCard'
 import RecentActivity from '../../components/agricultural/RecentActivity'
 import QuickActions from '../../components/agricultural/QuickActions'
-import AdvancedSoilAnalysis from '../../components/agricultural/AdvancedSoilAnalysis'
+import FarmerReadySoilAnalysis from '../../components/agricultural/FarmerReadySoilAnalysis'
 import CropStageTracker from '../../components/agricultural/CropStageTracker'
 import DiseasePestMonitor from '../../components/agricultural/DiseasePestMonitor'
 import NutrientStatusTracker from '../../components/agricultural/NutrientStatusTracker'
@@ -374,7 +374,7 @@ const Dashboard = () => {
                 </Box>
               </VStack>
             )}
-            {selectedFeature === 'Advanced Soil Analysis' && <AdvancedSoilAnalysis />}
+            {selectedFeature === 'Advanced Soil Analysis' && <FarmerReadySoilAnalysis />}
             {selectedFeature === 'Crop Stage Tracking' && <CropStageTracker />}
             {selectedFeature === 'Disease & Pest Monitoring' && <DiseasePestMonitor />}
             {selectedFeature === 'Nutrient Status Tracking' && <NutrientStatusTracker />}
