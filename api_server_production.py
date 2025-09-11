@@ -29,7 +29,7 @@ app.add_middleware(
         "http://localhost:5173",  # Vite dev server
         "https://agriforecast-frontend.vercel.app",  # Vercel production
         "https://*.vercel.app",  # All Vercel domains
-        "https://*.railway.app"  # All Railway domains
+        "https://*.onrender.com"  # All Render domains
     ],
     allow_credentials=True,
     allow_methods=["*"],

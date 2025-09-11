@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: agriforecast-api
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python api_server_production.py
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: PYTHON_VERSION
+        value: 3.11
+    healthCheckPath: /health
+    autoDeploy: true
+    branch: master
+    rootDir: .
