@@ -26,7 +26,10 @@ app.add_middleware(
         "http://localhost:3000",
         "http://localhost:3001", 
         "http://localhost:3002",
-        "https://your-frontend-domain.com"  # Add your production domain
+        "http://localhost:5173",  # Vite dev server
+        "https://agriforecast-frontend.vercel.app",  # Vercel production
+        "https://*.vercel.app",  # All Vercel domains
+        "https://*.railway.app"  # All Railway domains
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -290,11 +293,16 @@ async def root():
     }
 
 if __name__ == "__main__":
+    import os
     logger.info("Starting AgriForecast API server...")
+    
+    # Get port from environment variable (Railway sets this)
+    port = int(os.environ.get("PORT", 8000))
+    
     uvicorn.run(
         "api_server_production:app",
         host="0.0.0.0",
-        port=8000,
-        reload=True,
+        port=port,
+        reload=False,  # Disable reload in production
         log_level="info"
     )
