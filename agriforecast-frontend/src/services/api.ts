@@ -12,7 +12,7 @@ import type {
 } from '../types'
 
 // API Configuration
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://agriforecast-api.onrender.com'
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://timesfm.onrender.com'
 
 // Create axios instance
 export const api = axios.create({
