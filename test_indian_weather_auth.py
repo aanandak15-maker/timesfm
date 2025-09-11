@@ -90,3 +90,4 @@ def test_auth_methods():
 
 if __name__ == "__main__":
     test_auth_methods()
+

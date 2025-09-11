@@ -11,3 +11,4 @@ streamlit run agriforecast_user_auth.py --server.port 8504 --server.address loca
 
 echo "✅ User Authentication System launched!"
 echo "🌐 Access at: http://localhost:8504"
+

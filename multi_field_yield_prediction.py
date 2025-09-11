@@ -476,3 +476,4 @@ class MultiFieldYieldPrediction:
         except Exception as e:
             logger.error(f"Error predicting yield for multiple fields: {e}")
             return {}
+

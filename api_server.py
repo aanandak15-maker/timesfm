@@ -20,6 +20,7 @@ import json
 # Import your existing services
 try:
     from forecasting_service import ForecastingService
+    from comprehensive_soil_analysis import get_comprehensive_analysis_data
     FORECASTING_AVAILABLE = True
 except ImportError:
     FORECASTING_AVAILABLE = False
@@ -48,10 +49,12 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        "http://localhost:3001",  # React frontend
         "http://localhost:5173",  # Vite default
         "http://localhost:3000",  # Create React App
         "http://localhost:8080",  # Vue/other
-        "https://localhost:5173", # HTTPS variants
+        "https://localhost:3001", # HTTPS variants
+        "https://localhost:5173",
         "https://localhost:3000",
     ],
     allow_credentials=True,
@@ -136,9 +139,10 @@ class ForecastRequest(BaseModel):
 class FieldData(BaseModel):
     name: str
     farm_id: str
-    area: float
+    area_acres: float
     crop_type: str
-    coordinates: Optional[Dict] = {}
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
 class FarmData(BaseModel):
     name: str
@@ -251,15 +255,16 @@ async def create_field(field_data: FieldData):
     """Create a new field"""
     try:
         query = """
-        INSERT INTO fields (name, farm_id, area, crop_type, coordinates, created_at)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO fields (name, farm_id, area_acres, crop_type, latitude, longitude, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
         """
         params = (
             field_data.name,
             field_data.farm_id,
-            field_data.area,
+            field_data.area_acres,
             field_data.crop_type,
-            json.dumps(field_data.coordinates),
+            field_data.latitude,
+            field_data.longitude,
             datetime.now().isoformat()
         )
         
@@ -485,6 +490,161 @@ async def get_satellite_data(field_id: str, start_date: date, end_date: date):
             }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Satellite data error: {str(e)}")
+
+# Field Boundary Detection endpoints
+@app.post("/api/field-boundary/detect")
+async def detect_field_boundary(request: dict):
+    """Detect field boundary using various methods"""
+    try:
+        field_id = request.get("field_id")
+        method = request.get("method", "gps")  # gps, satellite, manual, estimated
+        latitude = request.get("latitude")
+        longitude = request.get("longitude")
+        area = request.get("area", 1.0)
+        
+        # Mock boundary detection based on method
+        if method == "gps":
+            # Simulate GPS walk-through detection
+            boundary = {
+                "center": {"lat": latitude, "lng": longitude},
+                "polygon": [
+                    {"lat": latitude + 0.001, "lng": longitude + 0.001},
+                    {"lat": latitude + 0.001, "lng": longitude - 0.001},
+                    {"lat": latitude - 0.001, "lng": longitude - 0.001},
+                    {"lat": latitude - 0.001, "lng": longitude + 0.001},
+                    {"lat": latitude + 0.001, "lng": longitude + 0.001}
+                ],
+                "area": area,
+                "perimeter": 400,  # meters
+                "method": "gps",
+                "accuracy": 85
+            }
+        elif method == "satellite":
+            # Simulate satellite imagery analysis
+            boundary = {
+                "center": {"lat": latitude, "lng": longitude},
+                "polygon": [
+                    {"lat": latitude + 0.0008, "lng": longitude + 0.0008},
+                    {"lat": latitude + 0.0008, "lng": longitude - 0.0008},
+                    {"lat": latitude - 0.0008, "lng": longitude - 0.0008},
+                    {"lat": latitude - 0.0008, "lng": longitude + 0.0008},
+                    {"lat": latitude + 0.0008, "lng": longitude + 0.0008}
+                ],
+                "area": area * 0.95,  # Slightly different from input
+                "perimeter": 380,
+                "method": "satellite",
+                "accuracy": 92
+            }
+        else:
+            # Estimated boundary
+            side_length = (area * 4046.86) ** 0.5 / 111000
+            boundary = {
+                "center": {"lat": latitude, "lng": longitude},
+                "polygon": [
+                    {"lat": latitude + side_length/2, "lng": longitude + side_length/2},
+                    {"lat": latitude + side_length/2, "lng": longitude - side_length/2},
+                    {"lat": latitude - side_length/2, "lng": longitude - side_length/2},
+                    {"lat": latitude - side_length/2, "lng": longitude + side_length/2},
+                    {"lat": latitude + side_length/2, "lng": longitude + side_length/2}
+                ],
+                "area": area,
+                "perimeter": side_length * 4 * 111000,
+                "method": "estimated",
+                "accuracy": 60
+            }
+        
+        return {
+            "status": "success",
+            "field_id": field_id,
+            "boundary": boundary
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Boundary detection error: {str(e)}")
+
+@app.get("/api/satellite-images/{field_id}")
+async def get_satellite_images(field_id: str, lat: float, lng: float):
+    """Get satellite images for field boundary detection"""
+    try:
+        # Mock satellite images
+        images = [
+            {
+                "id": f"sentinel_{field_id}_001",
+                "date": "2024-01-15",
+                "source": "sentinel-2",
+                "resolution": 10,
+                "cloud_cover": 5,
+                "url": f"https://services.sentinel-hub.com/api/v1/process?lat={lat}&lng={lng}"
+            },
+            {
+                "id": f"landsat_{field_id}_001", 
+                "date": "2024-01-20",
+                "source": "landsat-8",
+                "resolution": 30,
+                "cloud_cover": 10,
+                "url": f"https://earthengine.googleapis.com/v1alpha2/landsat?lat={lat}&lng={lng}"
+            }
+        ]
+        
+        return {
+            "status": "success",
+            "field_id": field_id,
+            "images": images
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Satellite images error: {str(e)}")
+
+# Comprehensive Soil Analysis endpoints
+@app.get("/api/soil-analysis/{field_id}")
+async def get_soil_analysis(field_id: str):
+    """Get comprehensive soil analysis for field"""
+    try:
+        analysis_data = get_comprehensive_analysis_data(field_id)
+        return {
+            "status": "success",
+            "field_id": field_id,
+            "data": analysis_data
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Soil analysis error: {str(e)}")
+
+@app.get("/api/crop-stages/{field_id}")
+async def get_crop_stages(field_id: str):
+    """Get crop stage tracking for field"""
+    try:
+        analysis_data = get_comprehensive_analysis_data(field_id)
+        return {
+            "status": "success",
+            "field_id": field_id,
+            "crop_stages": analysis_data["crop_stages"]
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Crop stages error: {str(e)}")
+
+@app.get("/api/disease-pest/{field_id}")
+async def get_disease_pest_monitoring(field_id: str):
+    """Get disease and pest monitoring for field"""
+    try:
+        analysis_data = get_comprehensive_analysis_data(field_id)
+        return {
+            "status": "success",
+            "field_id": field_id,
+            "disease_pest": analysis_data["disease_pest"]
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Disease pest monitoring error: {str(e)}")
+
+@app.get("/api/nutrient-status/{field_id}")
+async def get_nutrient_status(field_id: str):
+    """Get nutrient status tracking for field"""
+    try:
+        analysis_data = get_comprehensive_analysis_data(field_id)
+        return {
+            "status": "success",
+            "field_id": field_id,
+            "nutrient_status": analysis_data["nutrient_status"]
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Nutrient status error: {str(e)}")
 
 if __name__ == "__main__":
     print("🚀 Starting AgriForecast.ai API Server...")

@@ -426,3 +426,4 @@ Upon 100% completion, AgriForecast.ai will be:
 The plan is comprehensive and realistic. We can start with **Phase 1: User Research & Validation** to begin the journey to 100% completion!
 
 **Which phase would you like to tackle first?** 🎯
+

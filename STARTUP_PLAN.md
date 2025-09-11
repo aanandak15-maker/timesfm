@@ -364,3 +364,4 @@ async def get_user_forecasts(user_id: str):
 **Start with the existing Streamlit app, add authentication and payments, and you have a working MVP ready for market validation!**
 
 The key is to start small, validate demand, and scale based on customer feedback. With TimesFM's power and the right execution, this could become a multi-million dollar business within 2-3 years.
+

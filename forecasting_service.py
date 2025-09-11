@@ -463,3 +463,4 @@ forecasting_service = ForecastingService()
 def get_forecasting_service() -> ForecastingService:
     """Get the global forecasting service instance"""
     return forecasting_service
+

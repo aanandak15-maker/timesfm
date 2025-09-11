@@ -50,3 +50,4 @@ echo "   🌾 Crop Management - Planting, growth stages, harvest planning, pest 
 echo "   🌱 Soil Health - Soil testing, fertilizer recommendations, irrigation"
 echo ""
 echo "Press Ctrl+C to stop all systems"
+

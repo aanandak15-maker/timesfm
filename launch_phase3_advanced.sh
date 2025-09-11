@@ -58,3 +58,4 @@ echo "   📈 Market Intelligence - Commodity prices, market analysis, selling r
 echo "   📡 IoT Integration - Smart devices, data collection, automated monitoring"
 echo ""
 echo "Press Ctrl+C to stop all systems"
+

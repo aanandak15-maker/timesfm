@@ -42,3 +42,4 @@ echo "   📊 Advanced Analytics Dashboard - Yield trends, ROI analysis, field c
 echo "   📄 Report Generation System - PDF reports, Excel export, email automation"
 echo ""
 echo "Press Ctrl+C to stop all systems"
+

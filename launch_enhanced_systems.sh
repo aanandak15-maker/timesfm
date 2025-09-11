@@ -34,3 +34,4 @@ echo "🎯 Recommended: Start with User Authentication System"
 echo "   http://localhost:8504"
 echo ""
 echo "Press Ctrl+C to stop all systems"
+

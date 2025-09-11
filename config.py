@@ -88,3 +88,4 @@ class Config:
 
 # Global configuration instance
 config = Config()
+

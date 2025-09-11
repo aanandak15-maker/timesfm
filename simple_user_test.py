@@ -87,3 +87,4 @@ with st.form("test_user_form"):
             st.error(f"❌ Error creating user: {e}")
 
 st.info("🌐 Main User Auth System: http://localhost:8504")
+

@@ -74,3 +74,4 @@ if __name__ == "__main__":
         print("\n✨ TimesFM is ready to use!")
     else:
         print("\n💥 There were issues with the installation.")
+

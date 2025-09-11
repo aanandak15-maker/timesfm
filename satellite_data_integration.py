@@ -412,3 +412,4 @@ if __name__ == "__main__":
     if sentinel_data['status'] == 'success':
         indices = satellite.calculate_vegetation_indices(sentinel_data['data'])
         print("Vegetation Indices:", json.dumps(indices, indent=2))
+

@@ -84,3 +84,4 @@ else
     echo -e "${RED}❌ agriforecast_best_ux.py not found${NC}"
     exit 1
 fi
+

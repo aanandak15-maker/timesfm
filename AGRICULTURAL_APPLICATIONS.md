@@ -318,3 +318,4 @@ print(f"Predicted soil moisture: {forecast[0][0]:.1f}%")
 TimesFM is perfectly suited for agricultural applications. Start with simple forecasting tasks and gradually expand to more complex scenarios. The model's ability to handle various data patterns makes it ideal for the diverse challenges in modern agriculture.
 
 **Your TimesFM installation is ready for agricultural forecasting!** 🌾🚀
+

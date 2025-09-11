@@ -355,3 +355,4 @@ if __name__ == "__main__":
     # Predict yield
     prediction = yield_predictor.predict_yield('rice', field_data, weather_data, soil_data)
     print("Yield Prediction:", json.dumps(prediction, indent=2))
+

@@ -277,3 +277,4 @@ if __name__ == "__main__":
     # Test weather alerts
     alerts = weather.get_weather_alerts(28.368911, 77.541033)
     print("Weather Alerts:", json.dumps(alerts, indent=2))
+

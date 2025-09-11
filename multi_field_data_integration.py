@@ -372,3 +372,4 @@ class MultiFieldDataIntegration:
         except Exception as e:
             logger.error(f"Error getting bulk field data: {e}")
             return {}
+
