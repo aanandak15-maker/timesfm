@@ -46,8 +46,6 @@ const YieldPredictionCard = () => {
           last_updated: new Date().toISOString(),
           model_version: 'TimesFM-Mock-v1.0'
         })
-      } catch (error) {
-        console.error('Error loading yield prediction:', error)
       }
     }
 
