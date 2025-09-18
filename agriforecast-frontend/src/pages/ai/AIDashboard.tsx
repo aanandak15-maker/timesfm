@@ -26,9 +26,6 @@ import {
   Alert,
   AlertIcon,
   AlertDescription,
-  IconButton,
-  Tooltip,
-  Flex,
   Spinner
 } from '@chakra-ui/react';
 import { 
@@ -36,7 +33,6 @@ import {
   Camera, 
   MessageCircle, 
   BarChart3, 
-  Mic,
   Volume2,
   Settings,
   CheckCircle,

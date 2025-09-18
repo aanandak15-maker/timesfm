@@ -15,10 +15,8 @@ import {
   CardHeader,
   Heading,
   Badge,
-  Progress,
   Alert,
   AlertIcon,
-  AlertTitle,
   AlertDescription,
   Grid,
   GridItem,
@@ -34,7 +32,6 @@ import {
   Select,
   FormControl,
   FormLabel,
-  Divider
 } from '@chakra-ui/react';
 import { 
   TrendingUp, 
@@ -48,7 +45,7 @@ import {
   CheckCircle,
   Info
 } from 'lucide-react';
-import { getMarketIntelligence, MarketIntelligence } from '../../services/geminiApi';
+import { getMarketIntelligence, type MarketIntelligence } from '../../services/geminiApi';
 import { generateMarketIntelligenceVoice } from '../../services/elevenLabsApi';
 
 interface MarketIntelligenceProps {
@@ -79,7 +76,6 @@ const MarketIntelligenceComponent: React.FC<MarketIntelligenceProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [marketData, setMarketData] = useState<MarketIntelligence | null>(null);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
 
   const toast = useToast();
 
@@ -134,7 +130,7 @@ const MarketIntelligenceComponent: React.FC<MarketIntelligenceProps> = ({
         language: 'hindi'
       });
 
-      setAudioUrl(voiceResponse.audio_url);
+      // setAudioUrl(voiceResponse.audio_url);
       
       const audio = new Audio(voiceResponse.audio_url);
       audio.play();

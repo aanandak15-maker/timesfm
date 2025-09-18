@@ -21,7 +21,6 @@ import {
   Alert,
   AlertIcon,
   AlertDescription,
-  Flex,
   Spinner,
   Textarea,
   Select,
@@ -33,16 +32,11 @@ import {
   Mic, 
   MicOff, 
   Volume2, 
-  VolumeX, 
   Send,
   MessageCircle,
-  Languages,
-  Settings,
-  Play,
-  Pause,
   RefreshCw
 } from 'lucide-react';
-import { processVoiceQuery, VoiceAssistantResponse } from '../../services/geminiApi';
+import { processVoiceQuery, type VoiceAssistantResponse } from '../../services/geminiApi';
 import { generateAgriculturalVoiceResponse } from '../../services/elevenLabsApi';
 
 interface VoiceAssistantProps {
@@ -77,7 +71,7 @@ const VoiceAssistant: React.FC<VoiceAssistantProps> = ({
   const [voiceEnabled, setVoiceEnabled] = useState(true);
   const [isRecording, setIsRecording] = useState(false);
 
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const recognitionRef = useRef<any>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const toast = useToast();
 
@@ -96,14 +90,14 @@ const VoiceAssistant: React.FC<VoiceAssistantProps> = ({
         setIsRecording(true);
       };
 
-      recognitionRef.current.onresult = (event) => {
+      recognitionRef.current.onresult = (event: any) => {
         const transcript = event.results[0][0].transcript;
         setCurrentQuery(transcript);
         setIsListening(false);
         setIsRecording(false);
       };
 
-      recognitionRef.current.onerror = (event) => {
+      recognitionRef.current.onerror = (event: any) => {
         console.error('Speech recognition error:', event.error);
         setIsListening(false);
         setIsRecording(false);

@@ -10,14 +10,13 @@ import {
   Icon,
 } from '@chakra-ui/react'
 import { TrendingUp, Calendar, Target } from 'lucide-react'
-import { yieldPredictionApi, YieldPredictionData } from '../../services/yieldPredictionApi'
+import { yieldPredictionApi, type YieldPredictionData } from '../../services/yieldPredictionApi'
 import { useState, useEffect } from 'react'
 
 const YieldPredictionCard = () => {
   const bg = useColorModeValue('white', 'gray.800')
   const borderColor = useColorModeValue('gray.200', 'gray.700')
   const [predictionData, setPredictionData] = useState<YieldPredictionData | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const loadYieldPrediction = async () => {

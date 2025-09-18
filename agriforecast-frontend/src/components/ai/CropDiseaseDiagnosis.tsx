@@ -11,7 +11,6 @@ import {
   HStack,
   Text,
   Image,
-  Progress,
   Alert,
   AlertIcon,
   AlertTitle,
@@ -21,28 +20,21 @@ import {
   CardBody,
   CardHeader,
   Heading,
-  Divider,
   IconButton,
   Tooltip,
   useToast,
-  Spinner,
-  Flex,
   Grid,
   GridItem
 } from '@chakra-ui/react';
 import { 
   Camera, 
   Upload, 
-  Play, 
   Pause, 
   Volume2, 
-  Download,
   CheckCircle,
-  AlertTriangle,
-  Info,
   RefreshCw
 } from 'lucide-react';
-import { analyzeCropDisease, CropAnalysisResult } from '../../services/geminiApi';
+import { analyzeCropDisease, type CropAnalysisResult } from '../../services/geminiApi';
 import { generateDiseaseDiagnosisVoice } from '../../services/elevenLabsApi';
 
 interface CropDiseaseDiagnosisProps {
@@ -59,7 +51,6 @@ const CropDiseaseDiagnosis: React.FC<CropDiseaseDiagnosisProps> = ({
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<CropAnalysisResult | null>(null);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [cropContext, setCropContext] = useState({
     crop_type: '',
     growth_stage: '',
@@ -143,7 +134,7 @@ const CropDiseaseDiagnosis: React.FC<CropDiseaseDiagnosisProps> = ({
         language: 'hindi'
       });
 
-      setAudioUrl(voiceResponse.audio_url);
+      // setAudioUrl(voiceResponse.audio_url);
       
       if (audioRef.current) {
         audioRef.current.src = voiceResponse.audio_url;
@@ -179,7 +170,7 @@ const CropDiseaseDiagnosis: React.FC<CropDiseaseDiagnosisProps> = ({
     setSelectedImage(null);
     setImagePreview(null);
     setAnalysisResult(null);
-    setAudioUrl(null);
+    // setAudioUrl(null);
     setIsPlayingAudio(false);
     setCropContext({
       crop_type: '',

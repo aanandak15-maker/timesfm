@@ -20,7 +20,6 @@ import {
   StatLabel,
   StatNumber,
   StatHelpText,
-  CircularProgress,
   Spinner
 } from '@chakra-ui/react'
 import { Activity, RefreshCw, CheckCircle, AlertTriangle } from 'lucide-react'
