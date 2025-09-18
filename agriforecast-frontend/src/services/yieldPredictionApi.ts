@@ -40,12 +40,13 @@ class YieldPredictionApiService {
       console.log('Fetching real yield prediction for field:', fieldId, 'crop:', cropType)
       
       // Call your FastAPI backend with TimesFM integration
-      const response = await fetch(`${this.baseUrl}/api/yield-prediction/${fieldId}`, {
+      const response = await fetch(`${this.baseUrl}/api/yield-prediction`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          field_id: fieldId,
           crop_type: cropType,
           prediction_horizon: 30 // 30 days ahead
         })
