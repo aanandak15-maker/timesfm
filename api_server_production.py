@@ -79,6 +79,46 @@ class MarketDataResponse(BaseModel):
     corn: Dict[str, Any]
     last_updated: str
 
+# Field and Farm models
+class FarmData(BaseModel):
+    name: str
+    location: str
+    total_area_acres: float
+    description: Optional[str] = ""
+
+class FieldData(BaseModel):
+    name: str
+    farm_id: str
+    area_acres: float
+    crop_type: str
+    latitude: float
+    longitude: float
+    soil_type: Optional[str] = "Loamy"
+    planting_date: Optional[str] = None
+    harvest_date: Optional[str] = None
+
+class FarmResponse(BaseModel):
+    id: str
+    name: str
+    location: str
+    total_area_acres: float
+    description: str
+    created_at: str
+
+class FieldResponse(BaseModel):
+    id: str
+    name: str
+    farm_id: str
+    area_acres: float
+    crop_type: str
+    latitude: float
+    longitude: float
+    soil_type: str
+    planting_date: Optional[str]
+    harvest_date: Optional[str]
+    status: str
+    created_at: str
+
 # Health check endpoint
 @app.get("/health")
 async def health_check():
@@ -275,6 +315,179 @@ async def get_historical_yields(field_id: str):
         logger.error(f"Error in historical yields: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Historical yields failed: {str(e)}")
 
+# Farm management endpoints
+@app.get("/api/farms", response_model=List[FarmResponse])
+async def get_farms():
+    """Get all farms"""
+    try:
+        # Mock farm data for now - in production, this would come from database
+        farms = [
+            {
+                "id": "farm-1",
+                "name": "Green Valley Farm",
+                "location": "Uttar Pradesh, India",
+                "total_area_acres": 25.5,
+                "description": "Main farm with rice and wheat cultivation",
+                "created_at": "2024-01-15T10:30:00Z"
+            },
+            {
+                "id": "farm-2", 
+                "name": "Sunrise Agriculture",
+                "location": "Punjab, India",
+                "total_area_acres": 18.2,
+                "description": "Specialized in organic farming",
+                "created_at": "2024-02-20T14:15:00Z"
+            }
+        ]
+        return farms
+    except Exception as e:
+        logger.error(f"Error fetching farms: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error fetching farms: {str(e)}")
+
+@app.post("/api/farms", response_model=FarmResponse)
+async def create_farm(farm_data: FarmData):
+    """Create a new farm"""
+    try:
+        # Mock farm creation - in production, this would save to database
+        farm_id = f"farm-{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        new_farm = {
+            "id": farm_id,
+            "name": farm_data.name,
+            "location": farm_data.location,
+            "total_area_acres": farm_data.total_area_acres,
+            "description": farm_data.description,
+            "created_at": datetime.now().isoformat()
+        }
+        logger.info(f"Created farm: {farm_data.name} (ID: {farm_id})")
+        return new_farm
+    except Exception as e:
+        logger.error(f"Error creating farm: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error creating farm: {str(e)}")
+
+# Field management endpoints
+@app.get("/api/fields", response_model=List[FieldResponse])
+async def get_fields(farm_id: Optional[str] = None):
+    """Get all fields, optionally filtered by farm_id"""
+    try:
+        # Mock field data for now - in production, this would come from database
+        fields = [
+            {
+                "id": "field-1",
+                "name": "Rice Field 1",
+                "farm_id": "farm-1",
+                "area_acres": 5.2,
+                "crop_type": "Rice",
+                "latitude": 28.368911,
+                "longitude": 77.541033,
+                "soil_type": "Loamy",
+                "planting_date": "2024-06-15",
+                "harvest_date": "2024-10-15",
+                "status": "growing",
+                "created_at": "2024-01-15T10:30:00Z"
+            },
+            {
+                "id": "field-2",
+                "name": "Wheat Field 1", 
+                "farm_id": "farm-1",
+                "area_acres": 3.8,
+                "crop_type": "Wheat",
+                "latitude": 28.369911,
+                "longitude": 77.542033,
+                "soil_type": "Clay",
+                "planting_date": "2024-11-01",
+                "harvest_date": "2025-03-15",
+                "status": "planted",
+                "created_at": "2024-01-20T14:15:00Z"
+            },
+            {
+                "id": "field-3",
+                "name": "Corn Field 1",
+                "farm_id": "farm-2", 
+                "area_acres": 4.5,
+                "crop_type": "Corn",
+                "latitude": 30.368911,
+                "longitude": 75.541033,
+                "soil_type": "Sandy",
+                "planting_date": "2024-05-01",
+                "harvest_date": "2024-09-15",
+                "status": "harvested",
+                "created_at": "2024-02-10T09:20:00Z"
+            }
+        ]
+        
+        # Filter by farm_id if provided
+        if farm_id:
+            fields = [field for field in fields if field["farm_id"] == farm_id]
+            
+        return fields
+    except Exception as e:
+        logger.error(f"Error fetching fields: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error fetching fields: {str(e)}")
+
+@app.post("/api/fields", response_model=FieldResponse)
+async def create_field(field_data: FieldData):
+    """Create a new field"""
+    try:
+        # Mock field creation - in production, this would save to database
+        field_id = f"field-{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        new_field = {
+            "id": field_id,
+            "name": field_data.name,
+            "farm_id": field_data.farm_id,
+            "area_acres": field_data.area_acres,
+            "crop_type": field_data.crop_type,
+            "latitude": field_data.latitude,
+            "longitude": field_data.longitude,
+            "soil_type": field_data.soil_type or "Loamy",
+            "planting_date": field_data.planting_date,
+            "harvest_date": field_data.harvest_date,
+            "status": "planted",
+            "created_at": datetime.now().isoformat()
+        }
+        logger.info(f"Created field: {field_data.name} (ID: {field_id})")
+        return new_field
+    except Exception as e:
+        logger.error(f"Error creating field: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error creating field: {str(e)}")
+
+@app.put("/api/fields/{field_id}", response_model=FieldResponse)
+async def update_field(field_id: str, updates: Dict[str, Any]):
+    """Update an existing field"""
+    try:
+        # Mock field update - in production, this would update database
+        logger.info(f"Updating field {field_id} with data: {updates}")
+        
+        # Return updated field data
+        updated_field = {
+            "id": field_id,
+            "name": updates.get("name", "Updated Field"),
+            "farm_id": updates.get("farm_id", "farm-1"),
+            "area_acres": updates.get("area_acres", 1.0),
+            "crop_type": updates.get("crop_type", "Rice"),
+            "latitude": updates.get("latitude", 28.368911),
+            "longitude": updates.get("longitude", 77.541033),
+            "soil_type": updates.get("soil_type", "Loamy"),
+            "planting_date": updates.get("planting_date"),
+            "harvest_date": updates.get("harvest_date"),
+            "status": updates.get("status", "growing"),
+            "created_at": "2024-01-15T10:30:00Z"
+        }
+        return updated_field
+    except Exception as e:
+        logger.error(f"Error updating field: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error updating field: {str(e)}")
+
+@app.delete("/api/fields/{field_id}")
+async def delete_field(field_id: str):
+    """Delete a field"""
+    try:
+        # Mock field deletion - in production, this would delete from database
+        logger.info(f"Deleted field: {field_id}")
+        return {"status": "success", "message": f"Field {field_id} deleted successfully"}
+    except Exception as e:
+        logger.error(f"Error deleting field: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error deleting field: {str(e)}")
+
 # Root endpoint
 @app.get("/")
 async def root():
@@ -288,7 +501,9 @@ async def root():
             "soil_analysis": "/api/soil-analysis/{field_id}",
             "weather": "/api/weather",
             "market_data": "/api/market-data",
-            "historical_yields": "/api/historical-yields/{field_id}"
+            "historical_yields": "/api/historical-yields/{field_id}",
+            "farms": "/api/farms",
+            "fields": "/api/fields"
         }
     }
 
