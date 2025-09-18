@@ -20,10 +20,12 @@ import {
   TrendingUp,
   Menu,
   X,
+  Brain,
 } from 'lucide-react'
 
 const navigationItems = [
   { name: 'Dashboard', href: '/', icon: Home },
+  { name: 'AI Assistant', href: '/ai', icon: Brain },
   { name: 'Fields', href: '/fields', icon: MapPin },
   { name: 'Analytics', href: '/analytics', icon: BarChart3 },
   { name: 'Weather', href: '/weather', icon: Cloud },

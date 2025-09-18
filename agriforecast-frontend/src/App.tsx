@@ -5,6 +5,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import ErrorBoundary from './components/ErrorBoundary'
 import Layout from './components/layout/Layout'
 import Dashboard from './pages/dashboard/Dashboard'
+import AIDashboard from './pages/ai/AIDashboard'
 import Fields from './pages/fields/Fields'
 import Analytics from './pages/analytics/Analytics'
 import Weather from './pages/weather/Weather'
@@ -33,6 +34,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<Layout />}>
                 <Route index element={<Dashboard />} />
+                <Route path="ai" element={<AIDashboard />} />
                 <Route path="fields" element={<Fields />} />
                 <Route path="analytics" element={<Analytics />} />
                 <Route path="weather" element={<Weather />} />
