@@ -35,7 +35,7 @@ import { apiService } from '../../services/api'
 import { Plus, MapPin, Calendar, Droplets, Edit, Trash2, Eye } from 'lucide-react'
 import LocationPicker from '../../components/location/LocationPicker'
 import FieldBoundaryDetector from '../../components/location/FieldBoundaryDetector'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 const Fields = () => {
   const bg = useColorModeValue('white', 'gray.800')
@@ -58,10 +58,15 @@ const Fields = () => {
   console.log('Is loading:', isLoading)
   console.log('Error:', error)
 
-  const { data: farms } = useQuery({
+  const { data: farms, isLoading: farmsLoading, error: farmsError } = useQuery({
     queryKey: ['farms'],
     queryFn: apiService.getFarms,
   })
+
+  // Debug logging for farms
+  console.log('Farms data:', farms)
+  console.log('Farms loading:', farmsLoading)
+  console.log('Farms error:', farmsError)
 
   // Create field mutation
   const createFieldMutation = useMutation({
@@ -306,9 +311,24 @@ const FieldForm = ({ field, farms, onSubmit, isLoading }: any) => {
     harvest_date: field?.harvest_date || '',
   })
 
+  // Set default farm if none selected and farms are available
+  React.useEffect(() => {
+    if (!formData.farm_id && farms && farms.length > 0) {
+      setFormData(prev => ({ ...prev, farm_id: farms[0].id }))
+    }
+  }, [farms, formData.farm_id])
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(formData)
+    
+    // Ensure farm_id is set - use first available farm or default
+    const submitData = {
+      ...formData,
+      farm_id: formData.farm_id || (farms && farms.length > 0 ? farms[0].id : 'farm-1')
+    }
+    
+    console.log('Submitting field data:', submitData)
+    onSubmit(submitData)
   }
 
   return (
@@ -328,14 +348,33 @@ const FieldForm = ({ field, farms, onSubmit, isLoading }: any) => {
           <Select
             value={formData.farm_id}
             onChange={(e) => setFormData({ ...formData, farm_id: e.target.value })}
+            placeholder="Select a farm"
+            disabled={farmsLoading}
           >
             <option value="">Select a farm</option>
-            {farms.map((farm: any) => (
-              <option key={farm.id} value={farm.id}>
-                {farm.name}
+            {farmsLoading ? (
+              <option value="" disabled>Loading farms...</option>
+            ) : farms && farms.length > 0 ? (
+              farms.map((farm: any) => (
+                <option key={farm.id} value={farm.id}>
+                  {farm.name} - {farm.location}
+                </option>
+              ))
+            ) : (
+              <option value="farm-1" disabled>
+                No farms available - Using default farm
               </option>
-            ))}
+            )}
           </Select>
+          {farmsLoading ? (
+            <Text fontSize="sm" color="blue.500" mt={1}>
+              Loading farms...
+            </Text>
+          ) : !farms || farms.length === 0 ? (
+            <Text fontSize="sm" color="orange.500" mt={1}>
+              No farms found. Please create a farm first or contact support.
+            </Text>
+          ) : null}
         </FormControl>
 
         <HStack spacing={4}>

@@ -68,7 +68,11 @@ export const apiService = {
 
   // Farms
   async getFarms(): Promise<Farm[]> {
+    console.log('getFarms API call starting...')
     const response = await api.get('/api/farms')
+    console.log('getFarms API response:', response.data)
+    console.log('getFarms response.data.data:', response.data.data)
+    console.log('getFarms response.data:', response.data)
     return response.data.data || response.data
   },
 
