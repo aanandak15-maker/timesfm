@@ -12,6 +12,7 @@ import {
   Badge,
 } from '@chakra-ui/react'
 import { Bell, Settings, LogOut, User } from 'lucide-react'
+import { DEMO_CONFIG } from '../../config/demo'
 
 const Header = () => {
   const bg = useColorModeValue('white', 'gray.800')
@@ -29,9 +30,16 @@ const Header = () => {
       justifyContent="space-between"
     >
       {/* Page Title */}
-      <ChakraText fontSize="2xl" fontWeight="bold" color="gray.800">
-        Agricultural Intelligence Platform
-      </ChakraText>
+      <HStack spacing={4}>
+        <ChakraText fontSize="2xl" fontWeight="bold" color="gray.800">
+          Agricultural Intelligence Platform
+        </ChakraText>
+        {DEMO_CONFIG.DEMO_MODE && (
+          <Badge colorScheme="green" fontSize="sm" px={3} py={1}>
+            🎯 HACKATHON DEMO
+          </Badge>
+        )}
+      </HStack>
 
       {/* Right Side */}
       <HStack spacing={4}>

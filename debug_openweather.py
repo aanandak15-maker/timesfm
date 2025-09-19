@@ -71,3 +71,6 @@ def debug_openweather_api():
 if __name__ == "__main__":
     debug_openweather_api()
 
+
+
+

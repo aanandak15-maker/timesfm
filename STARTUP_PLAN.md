@@ -365,3 +365,6 @@ async def get_user_forecasts(user_id: str):
 
 The key is to start small, validate demand, and scale based on customer feedback. With TimesFM's power and the right execution, this could become a multi-million dollar business within 2-3 years.
 
+
+
+

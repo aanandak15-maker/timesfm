@@ -312,3 +312,6 @@ This platform represents the **future of agricultural technology** - where compl
 
 **The agricultural revolution starts with better user experience.** 🚀
 
+
+
+

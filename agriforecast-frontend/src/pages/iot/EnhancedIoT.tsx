@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiService } from '../../services/api';
+import { apiService } from '../../services/api'
+import demoService from '../../services/demoService';
 import {
   Box, VStack, HStack, Text, Heading, Button, SimpleGrid, Card, CardBody,
   Badge, Icon, useToast, Progress, Alert, AlertIcon, AlertDescription,
@@ -235,12 +236,12 @@ const EnhancedIoT: React.FC = () => {
   // Fetch fields and farms data
   const { data: apiFields, isLoading: fieldsLoading } = useQuery({
     queryKey: ['fields'],
-    queryFn: () => apiService.getFields(),
+    queryFn: () => demoService.getFields(),
   });
 
   const { data: farms, isLoading: farmsLoading } = useQuery({
     queryKey: ['farms'],
-    queryFn: () => apiService.getFarms(),
+    queryFn: () => demoService.getFarms(),
   });
 
   // Get field status based on sensor data

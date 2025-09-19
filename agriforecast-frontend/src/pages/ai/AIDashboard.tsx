@@ -53,7 +53,8 @@ import IoTDataIntelligence from '../../components/ai/IoTDataIntelligence';
 import { checkGeminiHealth } from '../../services/geminiApi';
 import { checkElevenLabsHealth } from '../../services/elevenLabsApi';
 import { useQuery } from '@tanstack/react-query';
-import { apiService } from '../../services/api';
+import { apiService } from '../../services/api'
+import demoService from '../../services/demoService';
 
 interface AIDashboardProps {
   farmerContext?: {
@@ -89,12 +90,12 @@ const AIDashboard: React.FC<AIDashboardProps> = ({ farmerContext }) => {
   // Fetch real field data
   const { data: fields, isLoading: fieldsLoading } = useQuery({
     queryKey: ['fields'],
-    queryFn: () => apiService.getFields(),
+    queryFn: () => demoService.getFields(),
   });
 
   const { data: farms, isLoading: farmsLoading } = useQuery({
     queryKey: ['farms'],
-    queryFn: apiService.getFarms,
+    queryFn: () => demoService.getFarms(),
   });
 
   // Check AI services health on component mount

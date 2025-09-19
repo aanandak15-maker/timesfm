@@ -15,6 +15,7 @@ import {
 } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 import { apiService } from '../../services/api'
+import demoService from '../../services/demoService'
 import { useErrorHandler } from '../../hooks/useErrorHandler'
 import { TrendingUp, BarChart3, PieChart, Activity } from 'lucide-react'
 import YieldTrendChart from '../../components/charts/YieldTrendChart'
@@ -30,12 +31,12 @@ const Analytics = () => {
   // Fetch real data from FastAPI backend
   const { data: fields, isLoading: fieldsLoading, error: fieldsError } = useQuery({
     queryKey: ['fields'],
-    queryFn: () => apiService.getFields(),
+    queryFn: () => demoService.getFields(),
   })
 
   const { data: farms, isLoading: farmsLoading, error: farmsError } = useQuery({
     queryKey: ['farms'],
-    queryFn: apiService.getFarms,
+    queryFn: () => demoService.getFarms(),
   })
 
   // Handle errors

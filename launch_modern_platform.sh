@@ -20,3 +20,6 @@ echo "Press Ctrl+C to stop the server"
 
 streamlit run agriforecast_modern.py --server.port 8502 --server.address localhost
 
+
+
+

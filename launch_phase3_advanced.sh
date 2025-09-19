@@ -59,3 +59,6 @@ echo "   📡 IoT Integration - Smart devices, data collection, automated monito
 echo ""
 echo "Press Ctrl+C to stop all systems"
 
+
+
+

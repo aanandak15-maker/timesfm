@@ -51,3 +51,6 @@ echo "   🌱 Soil Health - Soil testing, fertilizer recommendations, irrigation
 echo ""
 echo "Press Ctrl+C to stop all systems"
 
+
+
+

@@ -190,3 +190,6 @@ All Fail → Use Sample Data
 
 *Built with TimesFM, real APIs, and a vision to revolutionize agricultural forecasting.*
 
+
+
+

@@ -477,3 +477,6 @@ class MultiFieldYieldPrediction:
             logger.error(f"Error predicting yield for multiple fields: {e}")
             return {}
 
+
+
+

@@ -2,6 +2,7 @@ import {
   Box,
   Heading,
   Text as ChakraText,
+  Text,
   Button,
   HStack,
   VStack,
@@ -32,6 +33,7 @@ import {
 } from '@chakra-ui/react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { apiService } from '../../services/api'
+import demoService from '../../services/demoService'
 import { Plus, MapPin, Calendar, Droplets, Edit, Trash2, Eye } from 'lucide-react'
 import LocationPicker from '../../components/location/LocationPicker'
 import FieldBoundaryDetector from '../../components/location/FieldBoundaryDetector'
@@ -50,7 +52,7 @@ const Fields = () => {
   // Fetch real data from FastAPI backend
   const { data: fields, isLoading, error } = useQuery({
     queryKey: ['fields'],
-    queryFn: () => apiService.getFields(),
+    queryFn: () => demoService.getFields(),
   })
 
   // Debug logging
@@ -60,7 +62,7 @@ const Fields = () => {
 
   const { data: farms, isLoading: farmsLoading, error: farmsError } = useQuery({
     queryKey: ['farms'],
-    queryFn: apiService.getFarms,
+    queryFn: () => demoService.getFarms(),
   })
 
   // Debug logging for farms
@@ -71,7 +73,8 @@ const Fields = () => {
   // Create field mutation
   const createFieldMutation = useMutation({
     mutationFn: apiService.createField,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log('Field created successfully:', data)
       queryClient.invalidateQueries({ queryKey: ['fields'] })
       toast({
         title: 'Field created successfully!',
@@ -81,6 +84,7 @@ const Fields = () => {
       onClose()
     },
     onError: (error) => {
+      console.error('Error creating field:', error)
       toast({
         title: 'Error creating field',
         description: error.message,
@@ -162,12 +166,17 @@ const Fields = () => {
   }
 
   const handleSubmit = (formData: any) => {
+    console.log('handleSubmit called with:', formData)
+    console.log('isEditing:', isEditing, 'selectedField:', selectedField)
+    
     if (isEditing && selectedField) {
+      console.log('Updating field:', selectedField.id)
       updateFieldMutation.mutate({
         id: selectedField?.id || '',
         updates: formData,
       })
     } else {
+      console.log('Creating new field with data:', formData)
       createFieldMutation.mutate(formData)
     }
   }
@@ -287,6 +296,7 @@ const Fields = () => {
             <FieldForm
               field={selectedField}
               farms={farms || []}
+              farmsLoading={farmsLoading}
               onSubmit={handleSubmit}
               isLoading={createFieldMutation.isPending || updateFieldMutation.isPending}
             />
@@ -298,7 +308,7 @@ const Fields = () => {
 }
 
 // Field Form Component
-const FieldForm = ({ field, farms, onSubmit, isLoading }: any) => {
+const FieldForm = ({ field, farms, farmsLoading, onSubmit, isLoading }: any) => {
   const [formData, setFormData] = useState({
     name: field?.name || '',
     farm_id: field?.farm_id || '',
@@ -384,12 +394,9 @@ const FieldForm = ({ field, farms, onSubmit, isLoading }: any) => {
               value={formData.crop_type}
               onChange={(e) => setFormData({ ...formData, crop_type: e.target.value })}
             >
-              <option value="Rice">Rice</option>
-              <option value="Wheat">Wheat</option>
-              <option value="Corn">Corn</option>
-              <option value="Soybean">Soybean</option>
-              <option value="Cotton">Cotton</option>
-              <option value="Other">Other</option>
+              <option value="Rice">Rice (चावल)</option>
+              <option value="Maize">Maize (मक्का)</option>
+              <option value="Cotton">Cotton (कपास)</option>
             </Select>
           </FormControl>
 

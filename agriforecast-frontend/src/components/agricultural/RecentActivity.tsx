@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 import { apiService } from '../../services/api'
+import demoService from '../../services/demoService'
 import { format } from 'date-fns'
 import { MapPin, Droplets, TrendingUp, AlertCircle } from 'lucide-react'
 
@@ -20,7 +21,7 @@ const RecentActivity = () => {
 
   const { data: fields, isLoading } = useQuery({
     queryKey: ['fields'],
-    queryFn: () => apiService.getFields(),
+    queryFn: () => demoService.getFields(),
   })
 
   // Suppress unused variable warning

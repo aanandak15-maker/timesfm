@@ -43,3 +43,6 @@ echo "   📄 Report Generation System - PDF reports, Excel export, email automa
 echo ""
 echo "Press Ctrl+C to stop all systems"
 
+
+
+

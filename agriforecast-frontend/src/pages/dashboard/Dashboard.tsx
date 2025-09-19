@@ -29,6 +29,7 @@ import {
 } from '@chakra-ui/react'
 import { useQuery } from '@tanstack/react-query'
 import { apiService } from '../../services/api'
+import demoService from '../../services/demoService'
 import { TrendingUp, Droplets, Sun, Settings, BarChart3, Cloud, Bell } from 'lucide-react'
 import WeatherWidget from '../../components/agricultural/WeatherWidget'
 import YieldPredictionCard from '../../components/agricultural/YieldPredictionCard'
@@ -46,15 +47,15 @@ const Dashboard = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [selectedFeature, setSelectedFeature] = useState('')
 
-  // Fetch real data from FastAPI backend
+  // Fetch demo data for hackathon presentation
   const { data: farms, isLoading: farmsLoading } = useQuery({
     queryKey: ['farms'],
-    queryFn: apiService.getFarms,
+    queryFn: () => demoService.getFarms(),
   })
 
   const { data: fields, isLoading: fieldsLoading } = useQuery({
     queryKey: ['fields'],
-    queryFn: () => apiService.getFields(),
+    queryFn: () => demoService.getFields(),
   })
 
 
