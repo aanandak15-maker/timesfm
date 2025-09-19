@@ -1,1 +1,1 @@
-web: python api_server_production.py
+web: uvicorn api_server_production:app --host 0.0.0.0 --port $PORT
