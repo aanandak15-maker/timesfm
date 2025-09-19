@@ -12,7 +12,7 @@ import type {
 } from '../types'
 
 // API Configuration
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://timesfm.onrender.com'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
 
 // Create axios instance
 export const api = axios.create({
@@ -112,7 +112,9 @@ export const apiService = {
   },
 
   async createField(field: CreateFieldForm): Promise<Field> {
+    console.log('createField API call with data:', field)
     const response = await api.post('/api/fields', field)
+    console.log('createField API response:', response.data)
     return response.data.data || response.data
   },
 
